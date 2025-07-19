@@ -49,6 +49,14 @@ git clone https://github.com/ZQPei/deep_sort_pytorch
 ```bash
 python app.py
 ```
+- The default polygon coordinates in the code are set up for the sample video `demo4.mp4`.  
+- If you're using a different video, **you'll need to manually set new coordinates** that match your camera angle or scene.
+
+> 🎯 **How to get the coordinates?**
+> 
+> Here's my super high-tech method: **MS Paint** 🖌️😄  
+> Just pause your video on a key frame, take a screenshot, open it in MS Paint, and note down the (x, y) positions by hovering over the desired points.  
+> Then update those coordinates in the code! 💻🎯
 
 ## Contributing
 This project is open source so others can easily get involved. If you'd like to contribute, please fork the repository, create a feature branch, and open a pull request. All kinds of contributions bug fixes, features, or suggestions — are welcome!
