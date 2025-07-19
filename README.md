@@ -3,11 +3,15 @@
 ![OpenCV](https://img.shields.io/badge/OpenCV-4.9.0-green)
 ![Ultralytics](https://img.shields.io/badge/Ultralytics-YOLOv8-orange)
 ![DeepSORT](https://img.shields.io/badge/DeepSORT-Tracking-lightgrey)
+
+![Violation Example](sample_output.jpg)  
+*Vehicle crosses violation zone while the light is red. System logs the clip and details.*
+
 ## Table of Contents
 - [Motivation](#motivation)
+- [Introduction](#introduction)
 - [About the Project](#about-the-project)
 - [Features](#features)
-- [Sample Output](#sample-output)
 - [Installation & Usage](#installation--usage)
 - [Contributing](#contributing)
 - [Acknowledgents](#acknowledgements)
@@ -17,6 +21,9 @@
 ## Motivation
 This project was built during my internship to solve a real-world problem: Detecting Red Light Traffic Violations.\
 It uses computer vision to automate the monitoring process and aims to improve road safety by reducing manual surveillance efforts
+
+## Introduction
+With the rapid growth of urban traffic, road rule violations—especially red light jumping—have become a serious concern, leading to accidents, congestion, and risks to public safety. In cities like those in India and around the world, manual monitoring alone is not enough to enforce traffic rules effectively. To address this issue, a real-time automated Red Light Violation Detection System becomes essential. This system leverages computer vision to detect vehicles violating traffic signals and helps authorities ensure better compliance. Equipped with a user-friendly web interface, the system not only detects violations using YOLOv8 and DeepSORT but also logs evidence with video clips and timestamps, making traffic enforcement more efficient and accurate.
 
 ## About the Project
 
@@ -32,11 +39,6 @@ This project is a real-time **Red Light Violation Detection System**. It uses tw
 - Logs violations in CSV with timestamp, class, and ID  
 - Web interface built with Flask (upload or live camera)  
 - Clean and organized output folder for logs and clips
-
-## Sample Output
-
-![Violation Example](sample_output.jpg)  
-*Vehicle crosses violation zone while the light is red. System logs the clip and details.*
 
 ### Installation & Usage
 **1. Clone the repository:**
