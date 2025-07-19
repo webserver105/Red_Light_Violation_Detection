@@ -1,2 +1,88 @@
-# Red_Light_Violation_Detection
-Red Light Violation Detection System uses a YOLOv8s model and DeepSORT to detect vehicles and traffic lights in real-time. It identifies red light violations, records short video clips, logs details in CSV files, and supports both live camera and video upload through a Flask-based web interface.
+# Red Light Violation Detection System🚦
+
+*A computer vision system that detects vehicles running red lights using YOLOv8 and DeepSORT*
+
+## About the Project
+
+This project is a real-time **Red Light Violation Detection System**. It uses two YOLOv8 models—one for vehicle detection and another for traffic light detection and state classification—and tracks vehicle movements using **DeepSORT**. The system automatically saves logs and video clips of vehicles that enters violation zone when the traffic light is red. It supports both video file input and live camera feeds.
+
+## Features
+
+- Vehicle detection using YOLOv8 trained on BDD100K dataset  
+- Traffic light color classification using YOLOv8 trained on BSTLD dataset  
+- Vehicle tracking using DeepSORT for consistent ID across frames  
+- Polygon-based violation zone detection logic  
+- Records MP4 clips of red light violations  
+- Logs violations in CSV with timestamp, class, and ID  
+- Web interface built with Flask (upload or live camera)  
+- Clean and organized output folder for logs and clips
+
+## Sample Output
+
+![Violation Example](sample_output.jpg)  
+*Vehicle crosses violation zone while the light is red. System logs the clip and details.*
+
+### Installation & Usage
+**1. Clone the repository:**
+```bash
+git clone https://github.com/webserver105/Red_Light_Violation_Detection
+cd red_light_violation_detection
+```
+**2. Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+**3. Usage:**
+```bash
+python app.py
+```
+
+## Contributing
+This project is open source so others can easily get involved. If you'd like to contribute, please fork the repository, create a feature branch, and open a pull request. All kinds of contributions bug fixes, features, or suggestions — are welcome!
+
+## Acknowledgements
+This project uses the following open datasets. Huge thanks to the authors and contributors for making these resources publicly available:
+
+- **[BDD100K](https://bdd-data.berkeley.edu/)**  
+  *Yu, Fisher, et al. "BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning."*  
+  *IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2020.*
+
+- **[BSTLD (Bosch Small Traffic Lights Dataset)](https://hci.iwr.uni-heidelberg.de/content/bosch-small-traffic-lights-dataset)**  
+  *Behrendt, Karsten, and Novak, Libor. "A Deep Learning Approach to Traffic Lights: Detection, Tracking, and Classification."*  
+  *IEEE International Conference on Robotics and Automation (ICRA), 2017.*
+
+<details>
+<summary><strong>BibTeX for BDD100K</strong></summary>
+
+```bibtex
+@InProceedings{bdd100k,
+    author = {Yu, Fisher and Chen, Haofeng and Wang, Xin and Xian, Wenqi and Chen, Yingying and Liu, Fangchen and Madhavan, Vashisht and Darrell, Trevor},
+    title = {BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning},
+    booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month = {June},
+    year = {2020}
+}
+```
+
+</details>
+
+<details>
+<summary><strong>BibTeX for BSTLD</strong></summary>
+  
+```bibtex
+@inproceedings{BehrendtNovak2017ICRA,
+  title={A Deep Learning Approach to Traffic Lights: Detection, Tracking, and Classification},
+  author={Behrendt, Karsten and Novak, Libor},
+  booktitle={Robotics and Automation (ICRA), 2017 IEEE International Conference on},
+  organization={IEEE}
+}
+```
+</details>
+
+## Author
+Kunal Gandvane, kunal7sr@gmail.com\
+Student at Department of Civil Engineering\
+Indian Institute of Technology Bombay
+
+## Contact
+For any inquiries or further information, please contact me at [LinkedIn.](https://www.linkedin.com/in/kunal-gandvane-b28062346/)
