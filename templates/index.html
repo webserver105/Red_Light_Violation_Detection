@@ -1,0 +1,550 @@
+<!--
+Red Light Violation Detection System
+Created by Kunal Gandvane
+GitHub: https://github.com/webserver105
+Date: 19th July, 2025
+
+Features:
+- Real-time vehicle tracking
+- Traffic light state detection
+- Red Light Violation Detection
+- Violation recording with timestamps stored in logs
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Violation Detection System</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --secondary: #334155;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        h2 {
+            color: var(--text);
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+        
+        .video-container {
+            position: relative;
+            background-color: #000;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            aspect-ratio: 16/9;
+        }
+        
+        #video-stream {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .config-section {
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-start {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-start:hover {
+            background-color: #15803d;
+        }
+        
+        .btn-stop {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-stop:hover {
+            background-color: #b91c1c;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #1e293b;
+        }
+        
+        .btn:disabled {
+            background-color: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+        
+        #status {
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+        }
+        
+        .status-idle {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+        
+        .status-processing {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-stopped {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .clip-link {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .clip-link:hover {
+            text-decoration: underline;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+        
+        #zonePointsTable {
+            width: auto;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        #zonePointsTable th, 
+        #zonePointsTable td {
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        #zonePointsTable input {
+            width: 80px;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            text-align: center;
+        }
+        
+        #zonePointsTable input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        #fileNameDisplay {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        label.btn {
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Traffic Violation Detection System</h1>
+        
+        <div class="card">
+            <div class="config-section">
+                <h3>Video Source</h3>
+                <label for="videoUpload" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 13C19.34 13 19.67 13.04 20 13.09V8H4V18H13.09C13.04 18.33 13 18.66 13 19C13 19.34 13.04 19.67 13.09 20H4C2.9 20 2 19.11 2 18V6C2 4.89 2.9 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13.81C21.39 13.46 20.72 13.22 20 13.09V13H19Z" fill="currentColor"/>
+                        <path d="M18 15L15 18L18 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 15L21 18L18 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Upload Video
+                </label>
+                <input type="file" id="videoUpload" accept="video/*" style="display: none;">
+                <div id="fileNameDisplay"></div>
+                
+                <h3 style="margin-top: 1rem;">Or</h3>
+                
+                <button id="liveCameraBtn" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 10.43V7C17 5.9 16.1 5 15 5H5C3.9 5 3 5.9 3 7V17C3 18.1 3.9 19 5 19H15C16.1 19 17 18.1 17 17V13.57L21 17.6V6.4L17 10.43Z" fill="currentColor"/>
+                    </svg>
+                    Use Live Camera
+                </button>
+            </div>
+            
+            <div class="config-section" style="margin-top: 1.5rem;">
+                <h3>Violation Zone Coordinates</h3>
+                <p>Enter coordinates for 4 points that define the violation zone:</p>
+                <table id="zonePointsTable">
+                    <thead>
+                        <tr>
+                            <th>Point</th>
+                            <th>X-coordinate</th>
+                            <th>Y-coordinate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Point 1</td>
+                            <td><input type="number" class="x-coord" placeholder="X"></td>
+                            <td><input type="number" class="y-coord" placeholder="Y"></td>
+                        </tr>
+                        <tr>
+                            <td>Point 2</td>
+                            <td><input type="number" class="x-coord" placeholder="X"></td>
+                            <td><input type="number" class="y-coord" placeholder="Y"></td>
+                        </tr>
+                        <tr>
+                            <td>Point 3</td>
+                            <td><input type="number" class="x-coord" placeholder="X"></td>
+                            <td><input type="number" class="y-coord" placeholder="Y"></td>
+                        </tr>
+                        <tr>
+                            <td>Point 4</td>
+                            <td><input type="number" class="x-coord" placeholder="X"></td>
+                            <td><input type="number" class="y-coord" placeholder="Y"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="updateZoneBtn" class="btn btn-secondary" style="margin-top: 1rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Update Zone Coordinates
+                </button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="video-container">
+                <img id="video-stream" src="" alt="Live video stream">
+            </div>
+            
+            <div class="controls">
+                <button id="startBtn" class="btn btn-start">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5.274C5 3.501 6.88 2.46 8.336 3.499L18.57 10.725C19.941 11.704 19.941 13.796 18.57 14.775L8.336 22.001C6.88 23.04 5 22 5 20.227V5.274Z" fill="currentColor"/>
+                    </svg>
+                    Start Processing
+                </button>
+                <button id="stopBtn" class="btn btn-stop">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+                        <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+                    </svg>
+                    Stop Processing
+                </button>
+            </div>
+            
+            <div id="status" class="status-idle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Status: Idle
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Violation Logs</h2>
+            <table id="violationsTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Vehicle ID</th>
+                        <th>Vehicle Class</th>
+                        <th>Violation Clip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="empty-state">
+                        <td colspan="4">No violations detected yet</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const videoStream = document.getElementById('video-stream');
+        const statusDiv = document.getElementById('status');
+        const violationsTableBody = document.querySelector('#violationsTable tbody');
+        const videoUpload = document.getElementById('videoUpload');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const liveCameraBtn = document.getElementById('liveCameraBtn');
+        const updateZoneBtn = document.getElementById('updateZoneBtn');
+        
+        let violationInterval;
+        let processing_active = false;
+        
+        function updateStatus(status) {
+            statusDiv.className = `status-${status.toLowerCase()}`;
+            
+            const icons = {
+                idle: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>',
+                processing: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" fill="currentColor"/><path d="M12 6V12L16 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                stopped: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/><path d="M8 8L16 16" stroke="currentColor" stroke-width="2"/><path d="M16 8L8 16" stroke="currentColor" stroke-width="2"/></svg>'
+            };
+            
+            statusDiv.innerHTML = `${icons[status.toLowerCase()]} Status: ${status}`;
+        }
+        
+        function updateViolations() {
+            fetch('/get_violations')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        violationsTableBody.innerHTML = `
+                            <tr class="empty-state">
+                                <td colspan="4">No violations detected yet</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    let rows = '';
+                    data.reverse().forEach(v => {
+                        rows += `
+                            <tr>
+                                <td>${v['Timestamp']}</td>
+                                <td>${v['Vehicle ID']}</td>
+                                <td>${v['Vehicle Class']}</td>
+                                <td><a href="/logs/clips/${v['Clip Filename']}" class="clip-link" target="_blank">View Clip</a></td>
+                            </tr>
+                        `;
+                    });
+                    
+                    violationsTableBody.innerHTML = rows;
+                })
+                .catch(error => {
+                    console.error('Error fetching violations:', error);
+                });
+        }
+        
+        function getZonePoints() {
+            const xCoords = document.querySelectorAll('.x-coord');
+            const yCoords = document.querySelectorAll('.y-coord');
+            const points = [];
+            
+            for (let i = 0; i < 4; i++) {
+                const x = parseInt(xCoords[i].value);
+                const y = parseInt(yCoords[i].value);
+                
+                if (isNaN(x) || isNaN(y)) {
+                    alert(`Please enter valid numbers for Point ${i+1}`);
+                    return null;
+                }
+                
+                points.push([x, y]);
+            }
+            
+            return points;
+        }
+        
+        videoUpload.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileNameDisplay.textContent = `Selected: ${this.files[0].name}`;
+                
+                const formData = new FormData();
+                formData.append('video', this.files[0]);
+                
+                fetch('/upload_video', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Video uploaded successfully! Click "Start Processing" to begin.`);
+                    } else {
+                        alert(data.error || 'Error uploading video');
+                        fileNameDisplay.textContent = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error uploading video');
+                    fileNameDisplay.textContent = '';
+                });
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        });
+        
+        startBtn.addEventListener('click', () => {
+            fetch('/start_processing')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'started') {
+                        processing_active = true;
+                        videoStream.src = "/video_feed?t=" + new Date().getTime();
+                        updateStatus('Processing');
+                        startBtn.disabled = true;
+                        stopBtn.disabled = false;
+                        updateViolations();
+                        violationInterval = setInterval(updateViolations, 5000);
+                    }
+                });
+        });
+        
+        stopBtn.addEventListener('click', () => {
+            fetch('/stop_processing')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'stopped') {
+                        processing_active = false;
+                        videoStream.src = "";
+                        updateStatus('Stopped');
+                        startBtn.disabled = false;
+                        stopBtn.disabled = true;
+                        clearInterval(violationInterval);
+                    }
+                });
+        });
+        
+        liveCameraBtn.addEventListener('click', () => {
+            fetch('/use_live_camera')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Switched to live camera feed! Click "Start Processing" to begin.');
+                        fileNameDisplay.textContent = 'Using live camera feed';
+                    } else {
+                        alert('Error switching to live camera');
+                    }
+                });
+        });
+        
+        updateZoneBtn.addEventListener('click', () => {
+            const points = getZonePoints();
+            if (!points) return;
+            
+            fetch('/update_zone', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ points })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Violation zone updated successfully!');
+                } else {
+                    alert(data.error || 'Error updating zone');
+                }
+            });
+        });
+        
+        stopBtn.disabled = true;
+        updateStatus('Idle');
+        updateViolations();
+    </script>
+</body>
+</html>
