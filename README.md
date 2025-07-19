@@ -10,7 +10,6 @@
 ## Table of Contents
 - [Motivation](#motivation)
 - [Introduction](#introduction)
-- [About the Project](#about-the-project)
 - [Features](#features)
 - [Installation & Usage](#installation--usage)
 - [Contributing](#contributing)
@@ -23,12 +22,7 @@ This project was built during my internship to solve a real-world problem: Detec
 It uses computer vision to automate the monitoring process and aims to improve road safety by reducing manual surveillance efforts
 
 ## Introduction
-With the rapid growth of urban traffic, road rule violations—especially red light jumping—have become a serious concern, leading to accidents, congestion, and risks to public safety. In cities like those in India and around the world, manual monitoring alone is not enough to enforce traffic rules effectively. To address this issue, a real-time automated Red Light Violation Detection System becomes essential. This system leverages computer vision to detect vehicles violating traffic signals and helps authorities ensure better compliance. Equipped with a user-friendly web interface, the system not only detects violations using YOLOv8 and DeepSORT but also logs evidence with video clips and timestamps, making traffic enforcement more efficient and accurate.
-
-## About the Project
-
-This project is a real-time **Red Light Violation Detection System**. It uses two YOLOv8 models—one for vehicle detection and another for traffic light detection and state classification—and tracks vehicle movements using **DeepSORT**. The system automatically saves logs and video clips of vehicles that enters violation zone when the traffic light is red. It supports both video file input and live camera feeds.
-
+Urban traffic violations like red-light jumping are a growing concern, leading to accidents and safety risks. Manual enforcement alone is not enough. This system uses YOLOv8 and DeepSORT to detect red light violations in real-time and helps authorities enforce rules more effectively. It features a web interface that logs violations with clips and timestamps, making monitoring both efficient and user-friendly.
 ## Features
 
 - Vehicle detection using YOLOv8 trained on **BDD100K** dataset  
