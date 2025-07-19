@@ -4,7 +4,7 @@
 ![Ultralytics](https://img.shields.io/badge/Ultralytics-YOLOv8-orange)
 ![DeepSORT](https://img.shields.io/badge/DeepSORT-Tracking-lightgrey)
 
-![Violation Example](sample_output.jpg)  
+![Violation Example](sample_output.png)  
 *Vehicle crosses violation zone while the light is red. System logs the clip and details.*
 
 ## Table of Contents
