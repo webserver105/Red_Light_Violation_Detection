@@ -1,6 +1,22 @@
 # Red Light Violation Detection System🚦
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.9.0-green)
+![Ultralytics](https://img.shields.io/badge/Ultralytics-YOLOv8-orange)
+![DeepSORT](https://img.shields.io/badge/DeepSORT-Tracking-lightgrey)
+## Table of Contents
+- [Motivation](#motivation)
+- [About the Project](#about-the-project)
+- [Features](#features)
+- [Sample Output](#sample-output)
+- [Installation & Usage](#installation--usage)
+- [Contributing](#contributing)
+- [Acknowledgents](#acknowledgements)
+- [Author](#author)
+- [Contact](#contact)
 
-*A computer vision system that detects vehicles running red lights using YOLOv8 and DeepSORT*
+## Motivation
+This project was built during my internship to solve a real-world problem: Detecting Red Light Traffic Violations.\
+It uses computer vision to automate the monitoring process and aims to improve road safety by reducing manual surveillance efforts
 
 ## About the Project
 
@@ -8,9 +24,9 @@ This project is a real-time **Red Light Violation Detection System**. It uses tw
 
 ## Features
 
-- Vehicle detection using YOLOv8 trained on BDD100K dataset  
-- Traffic light color classification using YOLOv8 trained on BSTLD dataset  
-- Vehicle tracking using DeepSORT for consistent ID across frames  
+- Vehicle detection using YOLOv8 trained on **BDD100K** dataset  
+- Traffic light color classification using YOLOv8 trained on **BSTLD** dataset  
+- Vehicle tracking using **DeepSORT** for consistent ID across frames  
 - Polygon-based violation zone detection logic  
 - Records MP4 clips of red light violations  
 - Logs violations in CSV with timestamp, class, and ID  
