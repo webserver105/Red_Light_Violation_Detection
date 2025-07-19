@@ -23,16 +23,15 @@ It uses computer vision to automate the monitoring process and aims to improve r
 
 ## Introduction
 Urban traffic violations like red-light jumping are a growing concern, leading to accidents and safety risks. Manual enforcement alone is not enough. This system uses YOLOv8 and DeepSORT to detect red light violations in real-time and helps authorities enforce rules more effectively. It features a web interface that logs violations with clips and timestamps, making monitoring both efficient and user-friendly.
-## Features
-
-- Vehicle detection using YOLOv8 trained on **BDD100K** dataset  
-- Traffic light color classification using YOLOv8 trained on **BSTLD** dataset  
-- Vehicle tracking using **DeepSORT** for consistent ID across frames  
-- Polygon-based violation zone detection logic  
-- Records MP4 clips of red light violations  
-- Logs violations in CSV with timestamp, class, and ID  
-- Web interface built with Flask (upload or live camera)  
-- Clean and organized output folder for logs and clips
+## Features  
+- **Vehicle Detection:** Identifies vehicles (cars, bikes, trucks, buses, etc.) using YOLOv8 trained on the BDD100K dataset.  
+- **Traffic Light Classification:** Detects and classifies traffic light states (Red, Yellow, Green) using YOLOv8 trained on the BSTLD dataset.  
+- **Consistent Vehicle Tracking:** Uses DeepSORT to assign persistent IDs to vehicles across frames.  
+- **Polygon-Based Violation Zones:** Enables flexible zone shapes for more accurate violation detection compared to basic rectangular ROIs.  
+- **Automatic Violation Capture:** Records short MP4 clips of vehicles crossing during red light and saves them as evidence.  
+- **CSV Violation Logs:** Stores violation details — Timestamp, Vehicle ID, vehicle Class, and Video Clip in organized logs.  
+- **Web Interface:** Flask-based UI supports video upload and live camera feeds for easy usage.  
+- **Clean Output Management:** Organizes all logs and video evidence neatly in output folders for review.
 
 ### Installation & Usage
 **1. Clone the repository:**
@@ -43,6 +42,7 @@ cd red_light_violation_detection
 **2. Install dependencies:**
 ```bash
 pip install -r requirements.txt
+git clone https://github.com/ZQPei/deep_sort_pytorch
 ```
 **3. Usage:**
 ```bash
