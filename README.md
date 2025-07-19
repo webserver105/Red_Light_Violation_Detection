@@ -43,6 +43,7 @@ cd red_light_violation_detection
 ```bash
 pip install -r requirements.txt
 git clone https://github.com/ZQPei/deep_sort_pytorch
+# Extract this library in Red_Light_Violation_Detection folder only
 ```
 **3. Usage:**
 ```bash
