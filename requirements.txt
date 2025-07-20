@@ -3,3 +3,4 @@ opencv-python
 numpy
 flask
 werkzeug
+easydict>=1.9
