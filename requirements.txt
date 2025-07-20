@@ -1,5 +1,5 @@
 ultralytics
-opencv-python-headless
+opencv-python
 numpy
 flask
 werkzeug
