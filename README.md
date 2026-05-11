@@ -99,7 +99,7 @@ This project uses the following open datasets. Huge thanks to the authors and co
 </details>
 
 ## Author
-Kunal Gandvane, kunal7sr@gmail.com\
+Kunal Gandvane
 Student at Department of Civil Engineering\
 Indian Institute of Technology Bombay
 
